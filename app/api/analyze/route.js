@@ -22,20 +22,12 @@ export async function POST(request) {
 
     const data = await response.json();
 
-    // Debug: agar API error aaye
     if (data.error) {
-      return NextResponse.json(
-        { error: 'API Error', details: data.error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'API Error', details: data.error.message }, { status: 500 });
     }
 
-    // Content check
     if (!data.content || data.content.length === 0) {
-      return NextResponse.json(
-        { error: 'Empty response', details: JSON.stringify(data) },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Empty response', details: JSON.stringify(data) }, { status: 500 });
     }
 
     const text = data.content[0].text || '';
@@ -44,11 +36,6 @@ export async function POST(request) {
     return NextResponse.json(result);
 
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Analysis failed', details: error.message },
-      { status: 500 }
-    );
-  }
-}
+    return NextResponse.json({ error: 'Analysis failed', details: error.message }, { status: 500 });
   }
 }
