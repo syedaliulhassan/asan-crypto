@@ -14,21 +14,41 @@ export async function POST(request) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5',
         max_tokens: 8000,
         messages: [{ role: 'user', content: prompt }]
       })
     });
 
     const data = await response.json();
-    const text = data.content.map(function(i) { return i.text || ''; }).join('');
+
+    // Debug: agar API error aaye
+    if (data.error) {
+      return NextResponse.json(
+        { error: 'API Error', details: data.error.message },
+        { status: 500 }
+      );
+    }
+
+    // Content check
+    if (!data.content || data.content.length === 0) {
+      return NextResponse.json(
+        { error: 'Empty response', details: JSON.stringify(data) },
+        { status: 500 }
+      );
+    }
+
+    const text = data.content[0].text || '';
     const clean = text.replace(/json|/g, '').trim();
     const result = JSON.parse(clean);
     return NextResponse.json(result);
+
   } catch (error) {
     return NextResponse.json(
       { error: 'Analysis failed', details: error.message },
       { status: 500 }
     );
+  }
+}
   }
 }
