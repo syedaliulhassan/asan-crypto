@@ -1,4 +1,8 @@
-"use client";
+export const metadata = {
+  title: 'Asan Crypto - AI Crypto Analyzer',
+  description: 'Free AI-powered crypto research tool.',
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -7,9 +11,4 @@ export default function RootLayout({ children }) {
       </body>
     </html>
   );
-}
-
-export const metadata = {
-  title: 'Asan Crypto - AI Crypto Analyzer',
-  description: 'Free AI-powered crypto research tool.',
 }
